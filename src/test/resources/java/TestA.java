@@ -4,7 +4,9 @@
 public class TestA {
 
     public TestA(){
-        new Object();
+        new String();
+
+        String o1 = new String();
 
         Object o = new Object();
     }
