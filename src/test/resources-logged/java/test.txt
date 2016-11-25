@@ -1,0 +1,8 @@
+Begin TestA t creation
+Begin java.lang.String creation
+End java.lang.String creation
+Begin java.lang.String o1 creation
+End java.lang.String o1 creation
+Begin java.lang.Object o creation
+End java.lang.Object o creation
+End TestA t creation

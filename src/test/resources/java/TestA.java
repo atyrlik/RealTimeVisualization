@@ -11,4 +11,9 @@ public class TestA {
         Object o = new Object();
     }
 
+    public static void main(String[] args)
+    {
+        TestA t = new TestA();
+    }
+
 }
