@@ -19,14 +19,24 @@ public class ObjectCreationProcessor extends AbstractProcessor<CtConstructorCall
 
         // if affectation ("O o = new O()")
         if(!(element.getParent(CtStatement.class) instanceof CtBlock)){
-            element.getParent(CtStatement.class).insertBefore(toPrintBefore);
-            element.getParent(CtStatement.class).insertAfter(toPrintAfter);
+//            element.getParent(CtStatement.class).insertBefore(toPrintBefore);
+//            element.getParent(CtStatement.class).insertAfter(toPrintAfter);
+            addLogs(element.getParent(CtStatement.class));
         }
         // if new alone
         else {
-            element.insertBefore(toPrintBefore);
-            element.insertAfter(toPrintAfter);
-            System.out.println(element.getType());
+//            element.insertBefore(toPrintBefore);
+//            element.insertAfter(toPrintAfter);
+//            System.out.println(element.getType());
         }
+    }
+
+    private void addLogs(CtStatement element){
+
+        CtCodeSnippetStatement toPrintBefore = this.getFactory().Code().createCodeSnippetStatement("System.out.println(\"Begin creation\")");
+        CtCodeSnippetStatement toPrintAfter = this.getFactory().Code().createCodeSnippetStatement("System.out.println(\"End creation\")");
+
+        element.insertBefore(toPrintBefore);
+        element.insertAfter(toPrintAfter);
     }
 }
