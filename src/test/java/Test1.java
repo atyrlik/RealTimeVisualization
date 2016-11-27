@@ -21,11 +21,13 @@ public class Test1 {
         spoon = new Launcher();
     }
 
+
+
     @Test
-    public void testA(){
+    public void testMain(){
         ObjectCreationProcessor proc = new ObjectCreationProcessor();
         spoon.addProcessor(proc);
-        spoon.addInputResource("src/test/resources/java/TestA.java");
+        spoon.addInputResource("src/test/resources/main/TestWithSleep.java");
         spoon.run();
 
         DefaultJavaPrettyPrinter pp = new DefaultJavaPrettyPrinter(spoon.getEnvironment());
@@ -34,8 +36,8 @@ public class Test1 {
 
         try{
             // create directory if not already exist
-            new File("src/test/resources-logged/java").mkdirs();
-            PrintWriter writer = new PrintWriter("src/test/resources-logged/java/TestA.java", "UTF-8");
+            new File("src/test/resources-logged/main").mkdirs();
+            PrintWriter writer = new PrintWriter("src/test/resources-logged/main/TestWithSleep.java", "UTF-8");
             writer.println(pp.getResult());
             writer.close();
         } catch (Exception e) {
