@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 
 /**
@@ -12,7 +11,9 @@ public class Logger{
 
     public static void open(){
         try{
-            pw = new PrintWriter(new FileOutputStream(new File("src/toVisualize/main-logged/log.txt"),true));
+            File logFile = new File("src/toVisualize/main-logged/log.txt");
+            pw = new PrintWriter(new FileOutputStream(logFile,true));
+
         }
         catch (Exception exception){
             System.out.println(exception);
