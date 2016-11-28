@@ -1,4 +1,5 @@
 import junit.framework.TestCase;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import spoon.Launcher;
@@ -24,6 +25,13 @@ public class TestMain{
         spoon.setSourceOutputDirectory("src/toVisualize/main-logged");
         spoon.run();
 
+        Logger.open();
+
+    }
+
+    @After
+    public void tearDown(){
+        Logger.close();
     }
 
     @Test
