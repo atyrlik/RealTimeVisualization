@@ -3,6 +3,16 @@
  */
 public class DoRandomStuff {
 
+    public DoRandomStuff(){
+        long randomWaitTime = (long)(Math.random()*2000 + 500);
+        try{
+            Thread.sleep(randomWaitTime);
+        }
+        catch (Exception exception){
+            System.out.println(exception);
+        }
+    }
+
     public char getRandomLetter(){
         String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         return letters.charAt((int)(Math.random() * letters.length()));
