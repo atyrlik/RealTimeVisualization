@@ -15,8 +15,8 @@ public class Logger{
     public static void open(){
         try{
             // open writer to write logs in given file
-            File logFile = new File("src/toVisualize/main-logged/log.txt");
-            pw = new PrintWriter(new FileOutputStream(logFile,true));
+            // File logFile = new File("src/toVisualize/main-logged/log.txt");
+            // pw = new PrintWriter(new FileOutputStream(logFile,true));
 
             // Run a javafx window in the background during all tests
             visualizer = new Visualizer();
@@ -34,8 +34,8 @@ public class Logger{
         visualizer.close();
     }
 
-    public static void log(String message){
-        pw.append(message + "\n");
-        visualizer.setRecentLogTest(message);
+    public static void log(String className, String objectName, String currentTime){
+        // pw.append(message + "\n");
+        visualizer.setRecentLogTest(className, objectName, currentTime);
     }
 }
