@@ -36,12 +36,21 @@ public class Visualizer extends Application implements Runnable{
 
         table.setEditable(true);
 
-        TableColumn labelCol = new TableColumn("First Name");
-        labelCol.setMinWidth(100);
-        labelCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("label"));
+        //Association de l'attribut "objectName" à la colonne correspondante
+        TableColumn oNameCol = new TableColumn("Object Name");
+        oNameCol.setMinWidth(100);
+        oNameCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("objectName"));
+
+        TableColumn cNameCol = new TableColumn("Class Name");
+        cNameCol.setMinWidth(100);
+        cNameCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("className"));
+
+        TableColumn timeCol = new TableColumn("Creation Date");
+        timeCol.setMinWidth(100);
+        timeCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("currentTime"));
 
         table.setItems(data);
-        table.getColumns().addAll(labelCol);
+        table.getColumns().addAll(oNameCol,cNameCol,timeCol);
 
         root.getChildren().add(table);
 
@@ -68,7 +77,7 @@ public class Visualizer extends Application implements Runnable{
         }while (stayAwake);
     }
 
-    public void setRecentLogTest(String log){
-        data.add(new LogForTable(log));
+    public void setRecentLogTest(String oName, String cName, String time){
+        data.add(new LogForTable(oName,cName,time));
     }
 }
