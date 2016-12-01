@@ -3,6 +3,7 @@ import javafx.application.Application;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 
 /**
  * Created by alexandre on 28/11/16.
@@ -34,8 +35,8 @@ public class Logger{
         visualizer.close();
     }
 
-    public static void log(String actionType, String className, String objectName, String currentTime){
+    public static void log(String actionType, String className, String objectName){
         // pw.append(message + "\n");
-        visualizer.setRecentLogTest(actionType, className, objectName, currentTime);
+        visualizer.setRecentLogTest(actionType, className, objectName, LocalDateTime.now().toString());
     }
 }
