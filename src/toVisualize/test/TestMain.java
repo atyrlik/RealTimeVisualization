@@ -1,7 +1,5 @@
 import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import spoon.Launcher;
 import spoon.SpoonAPI;
 import spoon.processor.ObjectCreationProcessor;
@@ -14,11 +12,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class TestMain{
 
-    @Before
-    public void setUp(){ Logger.open(); }
+    @BeforeClass
+    public static void setUp(){ Logger.open(); }
 
-    @After
-    public void tearDown(){
+    @AfterClass
+    public static void tearDown(){
         Logger.close();
     }
 
@@ -34,12 +32,12 @@ public class TestMain{
         assertTrue(r.getRandomWord(5).length() == 5);
     }
 
-//    @Test
-//    public void TestWithSleep(){
-//        assertEquals(0, TestWithSleep.numberOfSleep);
-//        TestWithSleep.main(null);
-//        assertEquals(10, TestWithSleep.numberOfSleep);
-//    }
+    @Test
+    public void TestWithSleep(){
+        assertEquals(0, TestWithSleep.numberOfSleep);
+        TestWithSleep.main(null);
+        assertEquals(10, TestWithSleep.numberOfSleep);
+    }
 
 
 
