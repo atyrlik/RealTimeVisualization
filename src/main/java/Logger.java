@@ -34,8 +34,8 @@ public class Logger{
         visualizer.close();
     }
 
-    public static void log(String className, String objectName, String currentTime){
+    public static void log(String actionType, String className, String objectName, String currentTime){
         // pw.append(message + "\n");
-        visualizer.setRecentLogTest(className, objectName, currentTime);
+        visualizer.setRecentLogTest(actionType, className, objectName, currentTime);
     }
 }
