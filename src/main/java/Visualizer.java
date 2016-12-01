@@ -45,12 +45,16 @@ public class Visualizer extends Application implements Runnable{
         cNameCol.setMinWidth(100);
         cNameCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("className"));
 
+        TableColumn aNameCol = new TableColumn("Action Name");
+        aNameCol.setMinWidth(100);
+        aNameCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("actionName"));
+
         TableColumn timeCol = new TableColumn("Creation Date");
         timeCol.setMinWidth(100);
         timeCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("currentTime"));
 
         table.setItems(data);
-        table.getColumns().addAll(oNameCol,cNameCol,timeCol);
+        table.getColumns().addAll(oNameCol,cNameCol,aNameCol,timeCol);
 
         root.getChildren().add(table);
 
@@ -77,7 +81,7 @@ public class Visualizer extends Application implements Runnable{
         }while (stayAwake);
     }
 
-    public void setRecentLogTest(String oName, String cName, String time){
-        data.add(new LogForTable(oName,cName,time));
+    public void setRecentLogTest(String aName, String cName, String oName, String time){
+        data.add(new LogForTable(oName,cName,aName,time));
     }
 }
