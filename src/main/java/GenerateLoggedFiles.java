@@ -5,6 +5,11 @@ import spoon.processor.ObjectCreationProcessor;
 /**
  * Created by alexandre on 28/11/16.
  */
+
+/*
+Run spoon processors on all files in specified directory.
+Create new directory with newly generated files.
+ */
 public class GenerateLoggedFiles {
 
     static SpoonAPI spoon;

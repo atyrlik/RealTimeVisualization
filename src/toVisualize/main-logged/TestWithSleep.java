@@ -10,9 +10,9 @@ public class TestWithSleep {
     public static void main(java.lang.String[] args) {
         java.lang.System.out.println("Begin program!");
         for (int i = 0; i < 10; i++) {
-            Logger.log("Begin DoRandomStuff rand creation");
+            Logger.log("Begin object creation" , "DoRandomStuff" , "rand", 3);;
             DoRandomStuff rand = new DoRandomStuff();
-            Logger.log("End DoRandomStuff rand creation");
+            Logger.log("End object creation" , "DoRandomStuff" , "rand", 3);;
             java.lang.System.out.println(rand.getRandomLetter());
             try {
                 java.lang.Thread.sleep(1000);

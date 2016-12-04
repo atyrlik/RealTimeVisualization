@@ -3,27 +3,30 @@ import javafx.beans.property.SimpleStringProperty;
 /**
  * Created by dduvacher on 01/12/16.
  */
+
+/*
+Contains data model of logs.
+Useful to display logs in a Tableview.
+ */
 public class LogForTable {
-    private SimpleStringProperty objectName;
     private SimpleStringProperty className;
-    private SimpleStringProperty actionName;
-    private SimpleStringProperty currentTime;
+    private SimpleStringProperty numberOfInstance;
+    private SimpleStringProperty averageTime;
 
 
-    public LogForTable(String oName,String cName,String aName,String time)
+    public LogForTable(String cName,String nInstance,String time)
     {
-        this.objectName= new SimpleStringProperty(oName);
         this.className = new SimpleStringProperty(cName);
-        this.actionName= new SimpleStringProperty(aName);
-        this.currentTime= new SimpleStringProperty(time);
+        this.numberOfInstance= new SimpleStringProperty(nInstance);
+        this.averageTime= new SimpleStringProperty(time);
     }
 
-    public String getObjectName(){
-        return objectName.get();
+    public String getNumberOfInstance(){
+        return numberOfInstance.get();
     }
 
     public void setObjectName(String oName){
-        objectName= new SimpleStringProperty(oName);
+        numberOfInstance= new SimpleStringProperty(oName);
     }
 
     public String getClassName(){
@@ -34,19 +37,11 @@ public class LogForTable {
         className= new SimpleStringProperty(cName);
     }
 
-    public String getActionName(){
-        return actionName.get();
+    public String getAverageTime(){
+        return averageTime.get();
     }
 
-    public void setActionName(String aName){
-        actionName= new SimpleStringProperty(aName);
-    }
-
-    public String getCurrentTime(){
-        return currentTime.get();
-    }
-
-    public void setCurrentTime(String time){
-        currentTime= new SimpleStringProperty(time);
+    public void setAverageTime(String time){
+        averageTime= new SimpleStringProperty(time);
     }
 }

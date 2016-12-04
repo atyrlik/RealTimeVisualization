@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import sun.rmi.runtime.Log;
 
+import java.util.HashMap;
+
 /**
  * Created by alexandre on 28/11/16.
  */
@@ -24,12 +26,15 @@ public class Visualizer extends Application implements Runnable{
     private static TableView<LogForTable> table;
     private static final ObservableList<LogForTable> data = FXCollections.observableArrayList();
 
+    private static HashMap<String, LogForTable> rowMemory = new HashMap<String, LogForTable>();
+
     public void run(){
         launch();
     }
 
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("RealTime Visualization");
+
         table = new TableView<LogForTable>();
         StackPane root = new StackPane();
         root.getChildren().add(recentLog);
@@ -37,24 +42,21 @@ public class Visualizer extends Application implements Runnable{
         table.setEditable(true);
 
         //Association de l'attribut "objectName" à la colonne correspondante
-        TableColumn oNameCol = new TableColumn("Object Name");
-        oNameCol.setMinWidth(100);
-        oNameCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("objectName"));
 
         TableColumn cNameCol = new TableColumn("Class Name");
-        cNameCol.setMinWidth(100);
+        cNameCol.setMinWidth(200);
         cNameCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("className"));
 
-        TableColumn aNameCol = new TableColumn("Action Name");
-        aNameCol.setMinWidth(100);
-        aNameCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("actionName"));
+        TableColumn numberOfInstanceCol = new TableColumn("Number of Instances");
+        numberOfInstanceCol.setMinWidth(200);
+        numberOfInstanceCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("numberOfInstance"));
 
-        TableColumn timeCol = new TableColumn("Creation Date");
-        timeCol.setMinWidth(100);
-        timeCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("currentTime"));
+        TableColumn timeCol = new TableColumn("Average creation time (ms)");
+        timeCol.setMinWidth(250);
+        timeCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("averageTime"));
 
         table.setItems(data);
-        table.getColumns().addAll(oNameCol,cNameCol,aNameCol,timeCol);
+        table.getColumns().addAll(cNameCol, numberOfInstanceCol ,timeCol);
 
         root.getChildren().add(table);
 
@@ -65,7 +67,7 @@ public class Visualizer extends Application implements Runnable{
             }
         });
 
-        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.setScene(new Scene(root, 650, 250));
 
         primaryStage.show();
     }
@@ -81,7 +83,16 @@ public class Visualizer extends Application implements Runnable{
         }while (stayAwake);
     }
 
-    public void setRecentLogTest(String aName, String cName, String oName, String time){
-        data.add(new LogForTable(oName,cName,aName,time));
+    public void setRecentLogTest(String cName, String nInstance, String time){
+
+        if(data.contains(rowMemory.get(cName))){
+            int index = data.indexOf(rowMemory.get(cName));
+            rowMemory.put(cName, new LogForTable(cName,nInstance,time));
+            data.set(index, rowMemory.get(cName));
+        }
+        else {
+            rowMemory.put(cName, new LogForTable(cName,nInstance,time));
+            data.add(rowMemory.get(cName));
+        }
     }
 }
