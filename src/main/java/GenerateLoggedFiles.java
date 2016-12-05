@@ -1,5 +1,6 @@
 import spoon.Launcher;
 import spoon.SpoonAPI;
+import spoon.processor.MethodsCallProcessor;
 import spoon.processor.ObjectCreationProcessor;
 
 /**
@@ -16,8 +17,10 @@ public class GenerateLoggedFiles {
 
     public static void main(String args[]){
         spoon = new Launcher();
-        ObjectCreationProcessor proc = new ObjectCreationProcessor();
-        spoon.addProcessor(proc);
+        ObjectCreationProcessor procObject = new ObjectCreationProcessor();
+        MethodsCallProcessor procMethod = new MethodsCallProcessor();
+        spoon.addProcessor(procObject);
+        spoon.addProcessor(procMethod);
         spoon.addInputResource("src/toVisualize/main");
         spoon.setSourceOutputDirectory("src/toVisualize/main-logged");
         spoon.run();
