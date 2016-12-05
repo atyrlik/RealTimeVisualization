@@ -19,12 +19,12 @@ public class MethodsCallProcessor extends AbstractProcessor<CtMethod>{
     public void process(CtMethod element) {
 
         CtCodeSnippetStatement toPrintBefore = this.getFactory().Code().createCodeSnippetStatement(
-                "Logger.log(\"Begin method\" , \""+element.getSimpleName()+"\" , \""+element.getSimpleName()+"\", "+0+");"
+                "Logger.logBeginMethodCall(\""+element.getSimpleName()+"\");"
         );
         element.getBody().insertBegin(toPrintBefore);
 
         CtCodeSnippetStatement toPrintAfter = this.getFactory().Code().createCodeSnippetStatement(
-                "Logger.log(\"End method\" , \""+element.getSimpleName()+"\" , \""+element.getSimpleName()+"\", "+0+");"
+                "Logger.logEndMethodCall(\""+element.getSimpleName()+"\");"
         );
         element.getBody().insertBefore(new ReturnOrThrowFilter(),toPrintAfter);
     }

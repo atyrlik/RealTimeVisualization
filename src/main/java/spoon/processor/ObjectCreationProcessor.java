@@ -18,7 +18,7 @@ It insert Logger call before and after each constructor call.
 public class ObjectCreationProcessor extends AbstractProcessor<CtConstructorCall> {
 
     // variable to keep track of constructor call with an unique id
-    static long id = 0;
+    static int id = 0;
 
     // Called for each constructor call
     public void process(CtConstructorCall element) {
@@ -39,11 +39,11 @@ public class ObjectCreationProcessor extends AbstractProcessor<CtConstructorCall
     // Add Logger call before and after constructor call (without affectation)
     private void addLogs(CtStatement element, CtTypeReference type){
         CtCodeSnippetStatement toPrintBefore = this.getFactory().Code().createCodeSnippetStatement(
-                "Logger.log(\"Begin object creation\" , \""+type+"\" , \"anonymous\", "+id+");"
+                "Logger.logBeginObjectCreation("+id+");"
         );
 
         CtCodeSnippetStatement toPrintAfter = this.getFactory().Code().createCodeSnippetStatement(
-                "Logger.log(\"End object creation\" , \""+type+"\" , \"anonymous\", "+id+");"
+                "Logger.logEndObjectCreation(\""+type+"\", "+id+");"
         );
 
         element.insertBefore(toPrintBefore);
@@ -53,11 +53,11 @@ public class ObjectCreationProcessor extends AbstractProcessor<CtConstructorCall
     private void addLogs(CtStatement element, CtTypeReference type, String objectCreatedName){
 
         CtCodeSnippetStatement toPrintBefore = this.getFactory().Code().createCodeSnippetStatement(
-                "Logger.log(\"Begin object creation\" , \""+type+"\" , \""+objectCreatedName+"\", "+id+");"
+                "Logger.logBeginObjectCreation("+id+");"
         );
 
         CtCodeSnippetStatement toPrintAfter = this.getFactory().Code().createCodeSnippetStatement(
-                "Logger.log(\"End object creation\" , \""+type+"\" , \""+objectCreatedName+"\", "+id+");"
+                "Logger.logEndObjectCreation(\""+type+"\", "+id+");"
         );
 
         element.insertBefore(toPrintBefore);

@@ -7,31 +7,35 @@
 public class DoRandomStuff {
     public DoRandomStuff() {
         long randomWaitTime = ((long) (((java.lang.Math.random()) * 2000) + 500));
-        Logger.log("Begin object creation" , "java.util.ArrayList" , "anonymous", 0);;
+        Logger.logBeginObjectCreation(0);;
         new java.util.ArrayList();
-        Logger.log("End object creation" , "java.util.ArrayList" , "anonymous", 0);;
+        Logger.logEndObjectCreation("java.util.ArrayList", 0);;
         try {
             java.lang.Thread.sleep(randomWaitTime);
         } catch (java.lang.Exception exception) {
             java.lang.System.out.println(exception);
         }
-        Logger.log("Begin object creation" , "java.util.HashMap" , "myHashMap", 1);;
+        Logger.logBeginObjectCreation(1);;
         java.util.HashMap myHashMap = new java.util.HashMap();
-        Logger.log("End object creation" , "java.util.HashMap" , "myHashMap", 1);;
+        Logger.logEndObjectCreation("java.util.HashMap", 1);;
     }
 
     public char getRandomLetter() {
+        Logger.logBeginMethodCall("getRandomLetter");;
         java.lang.String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Logger.logEndMethodCall("getRandomLetter");;
         return letters.charAt(((int) ((java.lang.Math.random()) * (letters.length()))));
     }
 
     public java.lang.String getRandomWord(int size) {
-        Logger.log("Begin object creation" , "java.lang.StringBuilder" , "word", 2);;
+        Logger.logBeginMethodCall("getRandomWord");;
+        Logger.logBeginObjectCreation(2);;
         java.lang.StringBuilder word = new java.lang.StringBuilder();
-        Logger.log("End object creation" , "java.lang.StringBuilder" , "word", 2);;
+        Logger.logEndObjectCreation("java.lang.StringBuilder", 2);;
         for (int i = 0; i < size; i++)
             word.append(getRandomLetter());
         
+        Logger.logEndMethodCall("getRandomWord");;
         return word.toString();
     }
 }
