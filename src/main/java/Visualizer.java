@@ -4,10 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -22,11 +24,15 @@ public class Visualizer extends Application implements Runnable{
 
     private static boolean stayAwake = true;
 
-    private static Text recentLog = new Text("Here goes recent log");
-    private static TableView<LogForTable> table;
-    private static final ObservableList<LogForTable> data = FXCollections.observableArrayList();
+    private static Label labelObject;
+    private static Label labelMethod;
+    private static TableView<LogForTable> tableObject;
+    private static TableView<LogForTable> tableMethod;
+    private static final ObservableList<LogForTable> dataObject = FXCollections.observableArrayList();
+    private static final ObservableList<LogForTable> dataMethod = FXCollections.observableArrayList();
 
-    private static HashMap<String, LogForTable> rowMemory = new HashMap<String, LogForTable>();
+    private static HashMap<String, LogForTable> rowMemoryObject = new HashMap<String, LogForTable>();
+    private static HashMap<String, LogForTable> rowMemoryMethod = new HashMap<String, LogForTable>();
 
     public void run(){
         launch();
@@ -35,12 +41,16 @@ public class Visualizer extends Application implements Runnable{
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("RealTime Visualization");
 
-        table = new TableView<LogForTable>();
-        StackPane root = new StackPane();
-        root.getChildren().add(recentLog);
+        tableObject = new TableView<LogForTable>();
+        tableMethod = new TableView<LogForTable>();
+        labelObject = new Label("Object Creation");
+        labelMethod = new Label("Method Calls");
+        VBox root = new VBox();
 
-        table.setEditable(true);
+        tableObject.setEditable(true);
+        tableMethod.setEditable(true);
 
+        //Pour le tableau de création d'objet
         //Association de l'attribut "objectName" à la colonne correspondante
 
         TableColumn cNameCol = new TableColumn("Class Name");
@@ -55,10 +65,31 @@ public class Visualizer extends Application implements Runnable{
         timeCol.setMinWidth(250);
         timeCol.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("averageTime"));
 
-        table.setItems(data);
-        table.getColumns().addAll(cNameCol, numberOfInstanceCol ,timeCol);
+        //Même association pour les appels de méthodes
 
-        root.getChildren().add(table);
+        TableColumn cNameColMethod = new TableColumn("Method Name");
+        cNameColMethod.setMinWidth(200);
+        cNameColMethod.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("className"));
+
+        TableColumn numberOfInstanceColMethod = new TableColumn("Number of Instances");
+        numberOfInstanceColMethod.setMinWidth(200);
+        numberOfInstanceColMethod.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("numberOfInstance"));
+
+        TableColumn timeColMethod = new TableColumn("Average creation time (ms)");
+        timeColMethod.setMinWidth(250);
+        timeColMethod.setCellValueFactory(new PropertyValueFactory<LogForTable, String>("averageTime"));
+
+        tableObject.setItems(dataObject);
+        tableObject.getColumns().addAll(cNameCol, numberOfInstanceCol, timeCol);
+
+        tableMethod.setItems(dataMethod);
+        tableMethod.getColumns().addAll(cNameColMethod, numberOfInstanceColMethod, timeColMethod);
+
+        root.getChildren().add(labelObject);
+        root.getChildren().add(tableObject);
+
+        root.getChildren().add(labelMethod);
+        root.getChildren().add(tableMethod);
 
         // set close event
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -83,16 +114,29 @@ public class Visualizer extends Application implements Runnable{
         }while (stayAwake);
     }
 
-    public void setRecentLogTest(String cName, String nInstance, String time){
+    public void setRecentLogObject(String cName, String nInstance, String time){
 
-        if(data.contains(rowMemory.get(cName))){
-            int index = data.indexOf(rowMemory.get(cName));
-            rowMemory.put(cName, new LogForTable(cName,nInstance,time));
-            data.set(index, rowMemory.get(cName));
+        if(dataObject.contains(rowMemoryObject.get(cName))){
+            int index = dataObject.indexOf(rowMemoryObject.get(cName));
+            rowMemoryObject.put(cName, new LogForTable(cName,nInstance,time));
+            dataObject.set(index, rowMemoryObject.get(cName));
         }
         else {
-            rowMemory.put(cName, new LogForTable(cName,nInstance,time));
-            data.add(rowMemory.get(cName));
+            rowMemoryObject.put(cName, new LogForTable(cName,nInstance,time));
+            dataObject.add(rowMemoryObject.get(cName));
+        }
+    }
+
+    public void setRecentLogMethod(String cName, String nInstance, String time){
+
+        if(dataMethod.contains(rowMemoryMethod.get(cName))){
+            int index = dataMethod.indexOf(rowMemoryMethod.get(cName));
+            rowMemoryMethod.put(cName, new LogForTable(cName,nInstance,time));
+            dataMethod.set(index, rowMemoryMethod.get(cName));
+        }
+        else {
+            rowMemoryMethod.put(cName, new LogForTable(cName,nInstance,time));
+            dataMethod.add(rowMemoryMethod.get(cName));
         }
     }
 }
