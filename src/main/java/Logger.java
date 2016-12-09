@@ -13,16 +13,24 @@ public class Logger{
     private static Visualizer visualizer;
 
     // keep data on each Logger call to apply some logic before forwarding to visualizer.
-    private static HashMap<String, Integer> numberOfClassInstance;
-    private static HashMap<Integer, Long> creationTime;
-    private static HashMap<Integer, Long> totalCreationTime;
+    private static HashMap<String, Integer> ObjectNumberInstance;
+    private static HashMap<Integer, Long> ObjectCreationTime;
+    private static HashMap<Integer, Long> ObjectTotalCreationTime;
+
+    private static HashMap<String, Integer> MethodNumberInstance;
+    private static HashMap<String, Long> MethodCreationTime;
+    private static HashMap<String, Long> MethodTotalCreationTime;
 
     // Initialize static variables and run visualizer in a separate thread.
     public static void open(){
         try{
-            numberOfClassInstance = new HashMap<String, Integer>();
-            creationTime = new HashMap<Integer, Long>();
-            totalCreationTime = new HashMap<Integer, Long>();
+            ObjectNumberInstance = new HashMap<String, Integer>();
+            ObjectCreationTime = new HashMap<Integer, Long>();
+            ObjectTotalCreationTime = new HashMap<Integer, Long>();
+
+            MethodNumberInstance = new HashMap<String, Integer>();
+            MethodCreationTime = new HashMap<String, Long>();
+            MethodTotalCreationTime = new HashMap<String, Long>();
 
             // Run a javafx window in the background during all tests
             visualizer = new Visualizer();
@@ -41,41 +49,62 @@ public class Logger{
     // To call when an object begin to be created
     public static void logBeginObjectCreation(int id){
         // set beginning of creation time of the object
-        creationTime.put(id, System.nanoTime());
+        ObjectCreationTime.put(id, System.nanoTime());
     }
 
     // To call when an object finish to be created
     public static void logEndObjectCreation(String className, int id){
         // update number of instance
-        if (numberOfClassInstance.containsKey(className))
-            numberOfClassInstance.put(className, numberOfClassInstance.get(className) + 1);
+        if (ObjectNumberInstance.containsKey(className))
+            ObjectNumberInstance.put(className, ObjectNumberInstance.get(className) + 1);
         else
-            numberOfClassInstance.put(className, 1);
+            ObjectNumberInstance.put(className, 1);
 
         // compute creation time
-        long creationTimeTemp = System.nanoTime() - creationTime.get(id);
+        long creationTimeTemp = System.nanoTime() - ObjectCreationTime.get(id);
 
         // update average time
-        if(totalCreationTime.containsKey(id))
-            totalCreationTime.put(id, totalCreationTime.get(id) + creationTimeTemp);
+        if(ObjectTotalCreationTime.containsKey(id))
+            ObjectTotalCreationTime.put(id, ObjectTotalCreationTime.get(id) + creationTimeTemp);
         else
-            totalCreationTime.put(id, creationTimeTemp);
+            ObjectTotalCreationTime.put(id, creationTimeTemp);
 
         // display result
-        visualizer.setRecentLogTest(
+        visualizer.setRecentLogObject(
                 className,
-                ""+numberOfClassInstance.get(className),
-                ""+(totalCreationTime.get(id)/numberOfClassInstance.get(className))/1000000.0
+                ""+ ObjectNumberInstance.get(className),
+                ""+(ObjectTotalCreationTime.get(id)/ ObjectNumberInstance.get(className))/1000000.0
         );
     }
 
     // To call at the beginning of a method
     public static void logBeginMethodCall(String methodName){
-        System.out.println(methodName + " is called.");
+        // set time of the method beginning
+        MethodCreationTime.put(methodName, System.nanoTime());
     }
 
     // To call at the end of a method
     public static void logEndMethodCall(String methodName){
-        System.out.println(methodName + " ends.");
+        // update number of instance
+        if (MethodNumberInstance.containsKey(methodName))
+            MethodNumberInstance.put(methodName, MethodNumberInstance.get(methodName) + 1);
+        else
+            MethodNumberInstance.put(methodName, 1);
+
+        // compute creation time
+        long creationTimeTemp = System.nanoTime() - MethodCreationTime.get(methodName);
+
+        // update average time
+        if(MethodTotalCreationTime.containsKey(methodName))
+            MethodTotalCreationTime.put(methodName, MethodTotalCreationTime.get(methodName) + creationTimeTemp);
+        else
+            MethodTotalCreationTime.put(methodName, creationTimeTemp);
+
+        // display result
+        visualizer.setRecentLogMethod(
+                methodName,
+                ""+MethodNumberInstance.get(methodName),
+                ""+(MethodTotalCreationTime.get(methodName)/ MethodNumberInstance.get(methodName))/1000000.0
+        );
     }
 }
