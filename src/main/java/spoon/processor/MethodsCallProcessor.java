@@ -30,14 +30,12 @@ public class MethodsCallProcessor extends AbstractProcessor<CtMethod>{
         // Insert at the beginning of the method body
         element.getBody().insertBegin(toPrintBefore);
 
-        // Insert before a return or a a throw if not void method
-        if(element.getType().getSimpleName() != "void") {
-            element.getBody().insertBefore(new ReturnOrThrowFilter(),toPrintAfter);
-        }
         // Insert at the end of the method body (in case of void method)
-        else {
+        if(element.getType().getSimpleName() == "void") {
             element.getBody().insertEnd(toPrintAfter);
         }
+        // Insert before a return or a a throw
+        element.getBody().insertBefore(new ReturnOrThrowFilter(),toPrintAfter);
     }
 
 }
