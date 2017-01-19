@@ -73,7 +73,7 @@ public class Visualizer2 extends Application implements Runnable{
 
 
         treeTableView.setPrefWidth(152);
-        treeTableView.setShowRoot(true);
+        treeTableView.setShowRoot(false);
         panelRoot.getChildren().add(treeTableView);
 
         addRoot();
@@ -113,13 +113,22 @@ public class Visualizer2 extends Application implements Runnable{
         //Creating tree items
         final TreeItem<String> childNode1 = new TreeItem<String>("Child Node 1");
         final TreeItem<String> childNode2 = new TreeItem<String>("Child Node 2");
-        final TreeItem<String> childNode3 = new TreeItem<String>("Child Node 3");
-
+        final TreeItem<String> childNode3 = new TreeItem<String>("Child Node 42");
         childNode2.getChildren().add(childNode3);
 
         //Adding tree items to the root
         treeRoot.getChildren().addAll(childNode1, childNode2);
 
+    }
+
+    public void setRecentLogObject(String cName, String nInstance, String time){
+
+        if(treeRoot.getChildren().contains(new Object())){
+
+        }
+        else {
+
+        }
     }
 
 }
