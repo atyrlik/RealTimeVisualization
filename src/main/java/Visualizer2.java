@@ -1,23 +1,11 @@
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.Callback;
-import org.eclipse.jdt.internal.core.SourceType;
-import sun.rmi.runtime.Log;
-
-import java.util.HashMap;
 
 /**
  * Created by dduvacher on 09/12/16.
@@ -26,7 +14,8 @@ public class Visualizer2 extends Application implements Runnable{
 
     private static boolean stayAwake = true;
     private static VBox panelRoot;
-    private static TreeItem<LogForTable> treeRoot= new TreeItem<>();
+    private static TreeItem<LogForTable> treeRootObject = new TreeItem<>();
+    private static TreeItem<LogForTable> treeRootMethod = new TreeItem<>();
 
     public void run(){
         launch();
@@ -34,12 +23,15 @@ public class Visualizer2 extends Application implements Runnable{
 
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("RealTime Visualization");
+        final Label objectTitle = new Label("Object Creation");
+        final Label methodTitle = new Label("Method Execution");
         panelRoot = new VBox();
 
-        treeRoot.setExpanded(true);
+        treeRootObject.setExpanded(true);
+        treeRootMethod.setExpanded(true);
 
         TreeTableColumn<LogForTable, String> typeColumn =
-                new TreeTableColumn<>("Type");
+                new TreeTableColumn<>("Class Name/Name");
         typeColumn.setPrefWidth(150);
         typeColumn.setCellValueFactory(
                 (TreeTableColumn.CellDataFeatures<LogForTable, String> param) ->
@@ -47,7 +39,7 @@ public class Visualizer2 extends Application implements Runnable{
         );
 
         TreeTableColumn<LogForTable, String> timeColumn =
-                new TreeTableColumn<>("Time");
+                new TreeTableColumn<>("Average Time/Time");
         timeColumn.setPrefWidth(150);
         timeColumn.setCellValueFactory(
                 (TreeTableColumn.CellDataFeatures<LogForTable, String> param) ->
@@ -62,34 +54,53 @@ public class Visualizer2 extends Application implements Runnable{
                         new ReadOnlyStringWrapper(param.getValue().getValue().getNumberOfInstance())
         );
 
-        /*column.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LogForTable, String>, ObservableValue<LogForTable>>() {
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<String, String> p) {
-                return new ReadOnlyStringWrapper(p.getValue().getValue());
-            }
-        });
+        TreeTableColumn<LogForTable, String> typeColumn2 =
+                new TreeTableColumn<>("Method Name");
+        typeColumn2.setPrefWidth(150);
+        typeColumn2.setCellValueFactory(
+                (TreeTableColumn.CellDataFeatures<LogForTable, String> param) ->
+                        new ReadOnlyStringWrapper(param.getValue().getValue().getClassName())
+        );
 
-        column2.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<String, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<String, String> p) {
-                return new ReadOnlyStringWrapper(p.getValue().getValue());
-            }
-        });
+        TreeTableColumn<LogForTable, String> timeColumn2 =
+                new TreeTableColumn<>("Average Time/Time");
+        timeColumn2.setPrefWidth(150);
+        timeColumn2.setCellValueFactory(
+                (TreeTableColumn.CellDataFeatures<LogForTable, String> param) ->
+                        new ReadOnlyStringWrapper(param.getValue().getValue().getAverageTime())
+        );
 
-        column3.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<String, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<String, String> p) {
-                return new ReadOnlyStringWrapper(p.getValue().getValue());
-            }
-        });*/
+        TreeTableColumn<LogForTable, String> nbiColumn2 =
+                new TreeTableColumn<>("Number of instance");
+        nbiColumn2.setPrefWidth(150);
+        nbiColumn2.setCellValueFactory(
+                (TreeTableColumn.CellDataFeatures<LogForTable, String> param) ->
+                        new ReadOnlyStringWrapper(param.getValue().getValue().getNumberOfInstance())
+        );
 
-        final TreeTableView<LogForTable> treeTableView = new TreeTableView<>(treeRoot);
-        treeTableView.setShowRoot(false);
-        treeTableView.getColumns().add(typeColumn);
-        treeTableView.getColumns().add(timeColumn);
-        treeTableView.getColumns().add(nbiColumn);
+        final TreeTableView<LogForTable> treeTableViewObject = new TreeTableView<>(treeRootObject);
+        treeTableViewObject.setShowRoot(false);
+        treeTableViewObject.getColumns().add(typeColumn);
+        treeTableViewObject.getColumns().add(timeColumn);
+        treeTableViewObject.getColumns().add(nbiColumn);
+
+        final TreeTableView<LogForTable> treeTableViewMethod = new TreeTableView<>(treeRootMethod);
+        treeTableViewMethod.setShowRoot(false);
+        treeTableViewMethod.getColumns().add(typeColumn2);
+        treeTableViewMethod.getColumns().add(timeColumn2);
+        treeTableViewMethod.getColumns().add(nbiColumn2);
 
 
-        treeTableView.setPrefWidth(152);
-        treeTableView.setShowRoot(false);
-        panelRoot.getChildren().add(treeTableView);
+        treeTableViewObject.setPrefWidth(152);
+        treeTableViewObject.setShowRoot(false);
+        panelRoot.getChildren().add(objectTitle);
+        panelRoot.getChildren().add(treeTableViewObject);
+
+        treeTableViewMethod.setPrefWidth(152);
+        treeTableViewMethod.setShowRoot(false);
+        panelRoot.getChildren().add(methodTitle);
+        panelRoot.getChildren().add(treeTableViewMethod);
+
 
         // set close event
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -114,20 +125,8 @@ public class Visualizer2 extends Application implements Runnable{
         }while (stayAwake);
     }
 
-    public void addRoot(){
-        //Creating tree items
-        final TreeItem<LogForTable> childNode1 = new TreeItem<>(new LogForTable("Test","42","42"));
-        final TreeItem<LogForTable> childNode2 = new TreeItem<>(new LogForTable("Test2","42","42"));
-        final TreeItem<LogForTable> childNode3 = new TreeItem<>(new LogForTable("Test3","42","42"));
-        childNode2.getChildren().add(childNode3);
-
-        //Adding tree items to the root
-        treeRoot.getChildren().addAll(childNode1, childNode2);
-
-    }
-
     public void setRecentLogObject(String cName, String nInstance, String time){
-        for(TreeItem<LogForTable> c : treeRoot.getChildren()){
+        for(TreeItem<LogForTable> c : treeRootObject.getChildren()){
             if(c.getValue().getClassName().equals(cName))
             {
                 c.setValue(new LogForTable(cName,nInstance,time));
@@ -135,11 +134,11 @@ public class Visualizer2 extends Application implements Runnable{
             }
         }
         final TreeItem<LogForTable> node = new TreeItem<>(new LogForTable(cName,nInstance,time));
-        treeRoot.getChildren().addAll(node);
+        treeRootObject.getChildren().addAll(node);
     }
 
     public void addLogObject(String cName, String name, String ID, String time){
-        for(TreeItem<LogForTable> c : treeRoot.getChildren()){
+        for(TreeItem<LogForTable> c : treeRootObject.getChildren()){
             if(c.getValue().getClassName().equals(cName))
             {
                 c.getChildren().add(new TreeItem<>(new LogForTable(name,ID,time)));
@@ -151,7 +150,7 @@ public class Visualizer2 extends Application implements Runnable{
 
     public void setRecentLogMethod(String cName, String nInstance, String time){
 
-        for(TreeItem<LogForTable> c : treeRoot.getChildren()){
+        for(TreeItem<LogForTable> c : treeRootMethod.getChildren()){
             if(c.getValue().getClassName().equals(cName))
             {
                 c.setValue(new LogForTable(cName,nInstance,time));
@@ -159,11 +158,11 @@ public class Visualizer2 extends Application implements Runnable{
             }
         }
         final TreeItem<LogForTable> node = new TreeItem<>(new LogForTable(cName,nInstance,time));
-        treeRoot.getChildren().addAll(node);
+        treeRootMethod.getChildren().addAll(node);
     }
 
     public void addLogMethod(String cName, String name, String ID, String time){
-        for(TreeItem<LogForTable> c : treeRoot.getChildren()){
+        for(TreeItem<LogForTable> c : treeRootMethod.getChildren()){
             if(c.getValue().getClassName().equals(cName))
             {
                 c.getChildren().add(new TreeItem<>(new LogForTable(name,ID,time)));

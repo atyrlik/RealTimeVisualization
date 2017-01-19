@@ -109,5 +109,8 @@ public class Logger{
                 ""+MethodNumberInstance.get(methodName),
                 ""+(MethodTotalCreationTime.get(methodName)/ MethodNumberInstance.get(methodName))/1000000.0
         );
+
+        visualizer.addLogMethod(methodName,methodName,1+"",creationTimeTemp/1000000.0+"");
+
     }
 }
