@@ -129,7 +129,13 @@ public class Visualizer2 extends Application implements Runnable{
         for(TreeItem<LogForTable> c : treeRootObject.getChildren()){
             if(c.getValue().getClassName().equals(cName))
             {
-                c.setValue(new LogForTable(cName,nInstance,time));
+                double tempTime = Double.parseDouble(time);
+                for(TreeItem<LogForTable> c2 : c.getChildren()){
+                    tempTime += Double.parseDouble(c2.getValue().getAverageTime());
+                }
+
+                c.setValue(new LogForTable(cName,(c.getChildren().size()+1)+"",(tempTime/((double)c.getChildren().size()+1))+""));
+
                 return;
             }
         }
@@ -153,7 +159,13 @@ public class Visualizer2 extends Application implements Runnable{
         for(TreeItem<LogForTable> c : treeRootMethod.getChildren()){
             if(c.getValue().getClassName().equals(cName))
             {
-                c.setValue(new LogForTable(cName,nInstance,time));
+                double tempTime = Double.parseDouble(time);
+                for(TreeItem<LogForTable> c2 : c.getChildren()){
+                    tempTime += Double.parseDouble(c2.getValue().getAverageTime());
+                }
+
+                c.setValue(new LogForTable(cName,(c.getChildren().size()+1)+"",(tempTime/((double)c.getChildren().size()+1))+""));
+
                 return;
             }
         }
