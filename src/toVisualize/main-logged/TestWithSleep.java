@@ -23,6 +23,7 @@ public class TestWithSleep {
             }
         }
         java.lang.System.out.println("End program");
+        Logger.logEndMethodCall("main");;
     }
 }
 

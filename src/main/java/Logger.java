@@ -10,7 +10,7 @@ Methods open() and close() must called before and after all call to log().
  */
 public class Logger{
 
-    private static Visualizer visualizer;
+    private static Visualizer2 visualizer;
 
     // keep data on each Logger call to apply some logic before forwarding to visualizer.
     private static HashMap<String, Integer> ObjectNumberInstance;
@@ -33,7 +33,7 @@ public class Logger{
             MethodTotalCreationTime = new HashMap<String, Long>();
 
             // Run a javafx window in the background during all tests
-            visualizer = new Visualizer();
+            visualizer = new Visualizer2();
             new Thread(visualizer).start();
         }
         catch (Exception exception){
@@ -75,6 +75,8 @@ public class Logger{
                 ""+ ObjectNumberInstance.get(className),
                 ""+(ObjectTotalCreationTime.get(id)/ ObjectNumberInstance.get(className))/1000000.0
         );
+
+        visualizer.addLogObject(className,"Yolo",id+"",creationTimeTemp/1000000.0+"");
     }
 
     // To call at the beginning of a method
