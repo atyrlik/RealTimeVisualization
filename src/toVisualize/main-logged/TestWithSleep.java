@@ -13,7 +13,7 @@ public class TestWithSleep {
         for (int i = 0; i < 10; i++) {
             Logger.logBeginObjectCreation(3);;
             DoRandomStuff rand = new DoRandomStuff();
-            Logger.logEndObjectCreation("DoRandomStuff", 3);;
+            Logger.logEndObjectCreation("DoRandomStuff", 3, "rand", 1);;
             java.lang.System.out.println(rand.getRandomLetter());
             try {
                 java.lang.Thread.sleep(1000);

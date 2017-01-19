@@ -39,6 +39,7 @@ public class Logger{
         catch (Exception exception){
             System.out.println(exception);
         }
+
     }
 
     // Warn the javafx window that it can close, so it can wait exit order by user.
@@ -53,7 +54,7 @@ public class Logger{
     }
 
     // To call when an object finish to be created
-    public static void logEndObjectCreation(String className, int id){
+    public static void logEndObjectCreation(String className, int id, String objectName, int objectId){
         // update number of instance
         if (ObjectNumberInstance.containsKey(className))
             ObjectNumberInstance.put(className, ObjectNumberInstance.get(className) + 1);
@@ -76,7 +77,7 @@ public class Logger{
                 ""+(ObjectTotalCreationTime.get(id)/ ObjectNumberInstance.get(className))/1000000.0
         );
 
-        visualizer.addLogObject(className,"Yolo",id+"",creationTimeTemp/1000000.0+"");
+        visualizer.addLogObject(className,objectName,objectId+"",creationTimeTemp/1000000.0+"");
     }
 
     // To call at the beginning of a method

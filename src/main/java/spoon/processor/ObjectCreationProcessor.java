@@ -43,7 +43,7 @@ public class ObjectCreationProcessor extends AbstractProcessor<CtConstructorCall
         );
 
         CtCodeSnippetStatement toPrintAfter = this.getFactory().Code().createCodeSnippetStatement(
-                "Logger.logEndObjectCreation(\""+type+"\", "+id+");"
+                "Logger.logEndObjectCreation(\""+type+"\", "+ id +", \"anonymous\", "+1+ ");"
         );
 
         element.insertBefore(toPrintBefore);
@@ -57,7 +57,7 @@ public class ObjectCreationProcessor extends AbstractProcessor<CtConstructorCall
         );
 
         CtCodeSnippetStatement toPrintAfter = this.getFactory().Code().createCodeSnippetStatement(
-                "Logger.logEndObjectCreation(\""+type+"\", "+id+");"
+                "Logger.logEndObjectCreation(\""+type+"\", "+ id +", \""+ objectCreatedName +"\", "+1+ ");"
         );
 
         element.insertBefore(toPrintBefore);
