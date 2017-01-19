@@ -8,14 +8,21 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources-logged" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/main-logged" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/guava-master" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/fastjson-master/src/main" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/fastjson-master/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/abstractFactory/test/java/com/iluwatar/abstractfactory" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/abstractfactory-logged" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/abstractfactory-logged" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/abstractfactory-logged" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/toVisualize/abstractFactory/main/java/com/iluwatar/abstractfactory-logged" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/src/test/resources" />
+      <excludeFolder url="file://$MODULE_DIR$/src/toVisualize/abstractFactory/main/java/com/iluwatar/abstractfactory" />
+      <excludeFolder url="file://$MODULE_DIR$/src/toVisualize/abstractfactory-logged" />
       <excludeFolder url="file://$MODULE_DIR$/src/toVisualize/main" />
+      <excludeFolder url="file://$MODULE_DIR$/src/toVisualize/test" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

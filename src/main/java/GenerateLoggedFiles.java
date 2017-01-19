@@ -21,8 +21,12 @@ public class GenerateLoggedFiles {
         MethodsCallProcessor procMethod = new MethodsCallProcessor();
         spoon.addProcessor(procObject);
         spoon.addProcessor(procMethod);
-        spoon.addInputResource("src/toVisualize/main");
-        spoon.setSourceOutputDirectory("src/toVisualize/main-logged");
+//        spoon.addInputResource("src/toVisualize/main");
+//        spoon.setSourceOutputDirectory("src/toVisualize/main-logged");
+
+        spoon.addInputResource("src/toVisualize/abstractFactory/main/java/com/iluwatar/abstractfactory");
+        spoon.setSourceOutputDirectory("src/toVisualize/abstractFactory/main/java/com/iluwatar/abstractfactory-logged");
+
         spoon.run();
     }
 
